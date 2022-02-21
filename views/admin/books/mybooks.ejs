@@ -1,0 +1,56 @@
+<%- include('../../partials/header.ejs') %>
+<body>
+    <%- include('../../partials/navbar.ejs') %> 
+    <div class="container">
+        <hr>
+        <h2>Livros</h2>
+        <a href="/admin/books/new" class="btn btn-primary">Cadastrar livro</a>
+        <hr>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Livro</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% books.forEach(books => { %>
+                    <tr>
+                        <td><%= books.title %></td>
+                        <td><%- books.body %></td>
+                        <td>
+                            <a href="/books/edit/<%= books.id %>" class="btn btn-dark">Editar</a>
+                            <form method="POST" action="/books/delete" style="display: inline" onsubmit="deleteCheck(event, this)">
+                                <input type="hidden" name="id" value="<%= books.id%>">
+                                <button type="submit" class="btn btn-danger">Apagar</button>
+                              </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+  </body>
+<%- include('../../partials/footer.ejs') %>
+<script>
+    function deleteCheck(event, form){
+      event.preventDefault();
+  
+      Swal.fire({
+        title: 'Você deseja apagar esta categoria?',
+        text: 'Esta ação não pode ser desfeita.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2D9C23',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, apagar!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if(result.isConfirmed) {
+          form.submit();
+        }
+      });
+    };
+  
+</script>

@@ -1,0 +1,53 @@
+<%- include('partials/header.ejs') %>
+<body>
+    <%- include('partials/homenavbar.ejs') %> 
+    <div class="container">
+        <hr>
+        <h2>Biblioteca</h2>
+        <hr>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Livro</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% books.forEach(books => { %>
+                    <tr>
+                        <td><%= books.title %></td>
+                        <td><%- books.body %></td>
+                        <td>
+                            <form method="get" action="/login" style="display: inline" onsubmit="reservCheck(event, this)">
+                                <input type="hidden" name="id" value="<%= books.id%>">
+                                <button type="submit" class="btn btn-primary">Reservar</button>
+                              </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+  </body>
+<%- include('partials/footer.ejs') %>
+<script>
+    function reservCheck(event, form){
+      event.preventDefault();
+  
+      Swal.fire({
+        title: 'Você não está logado, deseja logar?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#2D9C23',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não'
+      }).then((result) => {
+        if(result.isConfirmed) {
+          form.submit();
+        }
+      });
+    };
+  
+  </script>

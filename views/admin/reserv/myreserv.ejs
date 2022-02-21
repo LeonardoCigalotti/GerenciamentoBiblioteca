@@ -1,0 +1,53 @@
+<%- include('../../partials/header.ejs') %>
+<body>
+    <%- include('../../partials/navbar.ejs') %> 
+    <div class="container">
+        <hr>
+        <h2>Minhas Reservas</h2>
+        <hr>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Livro</th>
+                    <th>Entregar dia</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% reserv.forEach(reserv => { %>
+                    <tr>
+                        <td><%= reserv.bookTitle %></td>
+                        <td><%= moment(Date()).format(format) %></td>
+                        <td>
+                            <form method="POST" action="/books/update/delete" style="display: inline" onsubmit="deleteReservCheck(event, this)">
+                              <input type="hidden" name="id" value="<%= reserv.id%>">  
+                              <button type="submit" class="btn btn-danger">Cancelar reserva</button>
+                              </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+  </body>
+<%- include('../../partials/footer.ejs') %>
+<script>
+    function deleteReservCheck(event, form){
+      event.preventDefault();
+  
+      Swal.fire({
+        title: 'Você deseja cancelar esta reserva?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2D9C23',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não'
+      }).then((result) => {
+        if(result.isConfirmed) {
+          form.submit();
+        }
+      });
+    };
+  
+</script>

@@ -1,0 +1,56 @@
+<%- include('../../partials/header.ejs') %>
+<%- include('../../partials/navbar.ejs') %> 
+
+<div class="container">
+    <hr>
+    <div class="card"> 
+        <div class="card-header">
+            <h2>Reservar Livro</h2>
+        </div>
+        <div class="card-body">
+            <form>
+                <input type="hidden" value="<%= books.id %>" name="id">
+                <label>Titulo</label>
+                <input class="form-control" type="text" name="title" value="<%= books.title %>" readonly><br>
+                <br>
+                <form>
+                  <fieldset>
+                    <legend>Resumo</legend>
+                    <br>
+                    <%- books.body %>
+                  </fieldset>
+                </form>
+                <br>
+                <form method="post" action="/books/reserv/confirm">
+                    <label for="time">Reservar por:</label>
+                    <select id="time" name="time">
+                      <option value="1">1 Semana</option>
+                      <option value="2">2 Semanas</option>
+                      <option value="3">3 Semanas</option>
+                      <option value="4">4 Semanas</option>
+                    </select>
+                    <input type="hidden" value="<%= books.id %>" name="id">
+                    <input type="hidden" value="<%= books.title %>" name="title">
+                    <input type="submit" class="btn btn-primary" value="Reservar">
+                    </form>
+                <br>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer.ejs') %>
+
+<script src="/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+
+    tinymce.init({
+        language: 'pt_BR',
+        selector: "#article",
+        activeEditor: false,
+        init_instance_callback: () => {
+            tinymce.get("article").setContent($("#content").html())
+        }
+    })
+
+</script>
